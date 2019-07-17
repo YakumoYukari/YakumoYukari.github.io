@@ -175,6 +175,7 @@
       }
 
       .display {
+        position: relative;
         background: #ddf;
         height: 70%;
         text-align: center;
@@ -182,11 +183,25 @@
         line-height: 100%;
       }
 
+      .font-selector {
+        float: left;
+        position: absolute;
+        margin-left: 10px;
+        bottom: 10px;
+      }
+
+      .font-selector select {
+        width: 100px;
+      }
+
       .flashcard-text {
         position: relative;
         top: 50%;
         transform: translateY(-50%);
         font-size: 125pt;
+        font-family: "ヒラギノ角ゴ Pro W3",
+          "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo,
+          "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
       }
 
       .flashcard-answer {
@@ -194,6 +209,7 @@
         top: 75%;
         transform: translateY(-50%);
         font-size: 75pt;
+        font-family: Helvetica, Arial, sans-serif;
       }
 
       .show-answers-checkbox {
@@ -206,6 +222,13 @@
     <div class="display">
       <div id="flashcard" class="flashcard-text">あ</div>
       <div id="answer" class="flashcard-answer" hidden="hidden">a</div>
+      <div class="font-selector">
+        <select id="fontSelector">
+          <option value="Hiragino Kaku Gothic Pro">Hiragino</option>
+          <option value="MS PGothic">Gothic</option>
+          <option value="Meiryo">Meiryo</option>
+        </select>
+      </div>
     </div>
     <div class="controls">
       <div class="slidecontainer">
@@ -365,6 +388,10 @@
       var showedCardFirst = false;
       var intervalId = null;
       var flashcardDisplay = document.getElementById("flashcard");
+      var fontSelector = document.getElementById("fontSelector");
+      fontSelector.onchange = function() {
+        flashcardDisplay.style.fontFamily = this.value;
+      };
 
       var answerDisplay = document.getElementById("answer");
       var showAnswersCheckbox = document.getElementById("showAnswers");
