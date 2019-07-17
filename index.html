@@ -175,6 +175,7 @@
       }
 
       .display {
+        position: relative;
         background: #ddf;
         height: 70%;
         text-align: center;
@@ -182,11 +183,25 @@
         line-height: 100%;
       }
 
+      .font-selector {
+        float: left;
+        position: absolute;
+        margin-left: 10px;
+        bottom: 10px;
+      }
+
+      .font-selector select {
+        width: 100px;
+      }
+
       .flashcard-text {
         position: relative;
         top: 50%;
         transform: translateY(-50%);
         font-size: 125pt;
+        font-family: "ヒラギノ角ゴ Pro W3",
+          "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo,
+          "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
       }
 
       .flashcard-answer {
@@ -194,6 +209,7 @@
         top: 75%;
         transform: translateY(-50%);
         font-size: 75pt;
+        font-family: Helvetica, Arial, sans-serif;
       }
 
       .show-answers-checkbox {
@@ -206,6 +222,13 @@
     <div class="display">
       <div id="flashcard" class="flashcard-text">あ</div>
       <div id="answer" class="flashcard-answer" hidden="hidden">a</div>
+      <div class="font-selector">
+        <select id="fontSelector">
+          <option value="Hiragino Kaku Gothic Pro">Hiragino</option>
+          <option value="MS PGothic">Gothic</option>
+          <option value="Meiryo">Meiryo</option>
+        </select>
+      </div>
     </div>
     <div class="controls">
       <div class="slidecontainer">
@@ -360,117 +383,15 @@
         { ch: "びゅ", ro: "byu" },
         { ch: "びょ", ro: "byo" }
       ];
-      var katakana = [
-        { ch: "ア", ro: "a" },
-        { ch: "イ", ro: "i" },
-        { ch: "ウ", ro: "u" },
-        { ch: "エ", ro: "e" },
-        { ch: "オ", ro: "o" },
-        { ch: "カ", ro: "ka" },
-        { ch: "キ", ro: "ki" },
-        { ch: "ク", ro: "ku" },
-        { ch: "ケ", ro: "ke" },
-        { ch: "コ", ro: "ko" },
-        { ch: "サ", ro: "sa" },
-        { ch: "シ", ro: "shi" },
-        { ch: "ス", ro: "su" },
-        { ch: "セ", ro: "se" },
-        { ch: "ソ", ro: "so" },
-        { ch: "タ", ro: "ta" },
-        { ch: "チ", ro: "chi" },
-        { ch: "ツ", ro: "tsu" },
-        { ch: "テ", ro: "te" },
-        { ch: "ト", ro: "to" },
-        { ch: "ナ", ro: "na" },
-        { ch: "ニ", ro: "ni" },
-        { ch: "ヌ", ro: "nu" },
-        { ch: "ネ", ro: "ne" },
-        { ch: "ノ", ro: "no" },
-        { ch: "ハ", ro: "ha" },
-        { ch: "ヒ", ro: "hi" },
-        { ch: "フ", ro: "hu" },
-        { ch: "ヘ", ro: "he" },
-        { ch: "ホ", ro: "ho" },
-        { ch: "マ", ro: "ma" },
-        { ch: "ミ", ro: "mi" },
-        { ch: "ム", ro: "mu" },
-        { ch: "メ", ro: "me" },
-        { ch: "モ", ro: "mo" },
-        { ch: "ヤ", ro: "ya" },
-        { ch: "ユ", ro: "yu" },
-        { ch: "ヨ", ro: "yo" },
-        { ch: "ラ", ro: "ra" },
-        { ch: "リ", ro: "ri" },
-        { ch: "ル", ro: "ru" },
-        { ch: "レ", ro: "re" },
-        { ch: "ロ", ro: "ro" },
-        { ch: "ワ", ro: "wa" },
-        { ch: "ヲ", ro: "wo" },
-        { ch: "ン", ro: "n" },
-        { ch: "ガ", ro: "ga" },
-        { ch: "ギ", ro: "gi" },
-        { ch: "グ", ro: "gu" },
-        { ch: "ゲ", ro: "ge" },
-        { ch: "ゴ", ro: "go" },
-        { ch: "ザ", ro: "za" },
-        { ch: "ジ", ro: "ji" },
-        { ch: "ズ", ro: "zu" },
-        { ch: "ゼ", ro: "ze" },
-        { ch: "ゾ", ro: "zo" },
-        { ch: "ダ", ro: "da" },
-        { ch: "ヂ", ro: "ji" },
-        { ch: "ヅ", ro: "zu" },
-        { ch: "デ", ro: "de" },
-        { ch: "ド", ro: "do" },
-        { ch: "バ", ro: "ba" },
-        { ch: "ビ", ro: "bi" },
-        { ch: "ブ", ro: "bu" },
-        { ch: "ベ", ro: "be" },
-        { ch: "ボ", ro: "bo" },
-        { ch: "パ", ro: "pa" },
-        { ch: "ピ", ro: "pi" },
-        { ch: "プ", ro: "pu" },
-        { ch: "ペ", ro: "pe" },
-        { ch: "ポ", ro: "po" },
-        { ch: "ニャ", ro: "nya" },
-        { ch: "ニュ", ro: "nyu" },
-        { ch: "ニョ", ro: "nyo" },
-        { ch: "チャ", ro: "cha" },
-        { ch: "チュ", ro: "chu" },
-        { ch: "チョ", ro: "cho" },
-        { ch: "シャ", ro: "sha" },
-        { ch: "シュ", ro: "shu" },
-        { ch: "ショ", ro: "sho" },
-        { ch: "キャ", ro: "kya" },
-        { ch: "キュ", ro: "kyu" },
-        { ch: "キョ", ro: "kyo" },
-        { ch: "ギャ", ro: "gya" },
-        { ch: "ギュ", ro: "gyu" },
-        { ch: "ギョ", ro: "gyo" },
-        { ch: "リャ", ro: "rya" },
-        { ch: "リュ", ro: "ryu" },
-        { ch: "リョ", ro: "ryo" },
-        { ch: "ミャ", ro: "mya" },
-        { ch: "ミュ", ro: "myu" },
-        { ch: "ミョ", ro: "myo" },
-        { ch: "ヒャ", ro: "hya" },
-        { ch: "ヒュ", ro: "hyu" },
-        { ch: "ヒョ", ro: "hyo" },
-        { ch: "ジャ", ro: "ja" },
-        { ch: "ジュ", ro: "ju" },
-        { ch: "ジョ", ro: "jo" },
-        { ch: "ピャ", ro: "pya" },
-        { ch: "ピュ", ro: "pyu" },
-        { ch: "ピョ", ro: "pyo" },
-        { ch: "ビャ", ro: "bya" },
-        { ch: "ビュ", ro: "byu" },
-        { ch: "ビョ", ro: "byo" }
-      ];
 
       var running = false;
       var showedCardFirst = false;
       var intervalId = null;
       var flashcardDisplay = document.getElementById("flashcard");
+      var fontSelector = document.getElementById("fontSelector");
+      fontSelector.onchange = function() {
+        flashcardDisplay.style.fontFamily = this.value;
+      };
 
       var answerDisplay = document.getElementById("answer");
       var showAnswersCheckbox = document.getElementById("showAnswers");
@@ -512,15 +433,22 @@
         }
 
         answerDisplay.hidden = true;
-        var selected = null;
-        if (isHiraganaSelected()) {
-          selected = hiragana[Math.floor(Math.random() * hiragana.length)];
-        } else {
-          selected = katakana[Math.floor(Math.random() * katakana.length)];
-        }
-        flashcardDisplay.innerHTML = selected.ch;
+        var selected = hiragana[Math.floor(Math.random() * hiragana.length)];
+
+        flashcardDisplay.innerHTML = isHiraganaSelected()
+          ? selected.ch
+          : toKatakana(selected.ch);
+
         answerDisplay.innerHTML = selected.ro;
         showedCardFirst = true;
+      }
+
+      function toKatakana(str) {
+        var out = [];
+        str.split("").forEach(char => {
+          out.push(String.fromCharCode(char.charCodeAt(0) + (0x30a1 - 0x3041)));
+        });
+        return out.join("");
       }
 
       function startDisplay() {
